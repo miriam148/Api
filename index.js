@@ -12,7 +12,13 @@ app.use(express.json());
 
 connecToDataBase()
 
+<<<<<<< HEAD
 
+=======
+const loginRouter = require("./routes/loginRouter")
+const recipeRouter = require("./routes/recipeRouter")
+const usersRouter = require('./routes/usersRouter')
+>>>>>>> 48a224486cf5510c15ed432640a3aaac2e25ff69
 
 
 
