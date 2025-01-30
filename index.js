@@ -1,4 +1,8 @@
 const express = require('express');
+const loginRouter = require("./routes/loginRouter")
+const recipeRouter = require("./routes/recipeRouter")
+const usersRouter = require('./routes/usersRouter')
+const cors = require("cors");
 require('dotenv').config();
 const connecToDataBase = require('./db/db')
 
@@ -8,9 +12,7 @@ app.use(express.json());
 
 connecToDataBase()
 
-const loginRouter = require("./routes/loginRouter")
-const recipeRouter = require("./routes/recipeRouter")
-const usersRouter = require('./routes/usersRouter')
+
 
 
 
