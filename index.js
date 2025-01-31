@@ -12,9 +12,6 @@ app.use(express.json());
 
 connecToDataBase()
 
-const loginRouter = require("./routes/loginRouter")
-const recipeRouter = require("./routes/recipeRouter")
-const usersRouter = require('./routes/usersRouter')
 
 
 

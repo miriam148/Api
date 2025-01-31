@@ -1,14 +1,9 @@
-<<<<<<< HEAD
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/utils.js");
-=======
 
-const userModel = require("../models/userModel")
-const bcrypt = require('bcrypt')
-const { generateToken } = require('../utils/utils.js')
 
->>>>>>> 48a224486cf5510c15ed432640a3aaac2e25ff69
+
 
 const signup = async (req, res) => {
   try {
