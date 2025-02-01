@@ -18,4 +18,21 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken}
+
+
+// HACER COMPROBACIÓN DE QUE SEA ADMIN Y PASE
+
+const verifyAdmin = async (req, res, next) => {
+  try {
+    const payload = req.payload;
+
+    if (payload.role === "user")
+      return res.status(401).send("No tienes permisos");
+    next();
+  } catch (error) {
+    res.status(400).send("Token caducado o no válido");
+  }
+};
+
+
+module.exports = { verifyToken, verifyAdmin}

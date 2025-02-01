@@ -1,21 +1,20 @@
 const recipeModel = require('../models/recipeModel')
 
-const getAllRecipes =  async (req,res) => {
-    try {
-      
-        const recipes =   await recipeModel.find()
-        if(recipes.length === 0){
-          return res.status(200)
-          .send({
-            status:"success",
-            data: [],
-            message: "no hay recetas en la base de datos",
-          })
-        }
-        res.status(200).send({ status: "success", data: recipes})
-    } catch (error) {
-        res.status(500).send({ status: 'Failed', error: error.message})
+const getAllRecipes = async (req, res) => {
+  try {
+    const recipes = await recipeModel.find();
+
+    if (recipes.length === 0) {
+      return res.status(200).send({
+        status: "success",
+        data: [],
+        message: "no hay recetas en la base de datos",
+      });
     }
+    res.status(200).send({ status: "success", data: recipes });
+  } catch (error) {
+    res.status(500).send({ status: "Failed", error: error.message });
+  }
 };
 
 
@@ -44,7 +43,7 @@ const getLastFive =  async (req,res) => {
 
 const getById = async (req, res) => {
   try {
-      const idRecipe = req.params.idRecipe;console.log(idRecipe)
+      const idRecipe = req.params.idRecipe;
       const recipe = await recipeModel.findById(idRecipe);
       if(!recipe){
           return res.status(404).send("Receta no encontrada");
@@ -56,4 +55,21 @@ const getById = async (req, res) => {
 
 };
 
-module.exports = { getAllRecipes, addrecipe, getLastFive, getById }
+
+const updateRecipe = async(req, res) => {
+    try {
+        const idRecipe = req.params.idRecipe
+        console.log(idRecipe)
+        const newRecipe = req.body
+        const recipe = await recipeModel.findByIdAndUpdate(idRecipe, newRecipe, { new: true})
+        if(!recipe){
+            return res.status(404).send('Receta no encontrada')
+        }
+        res.status(200).send(recipe)
+    } catch (error) {
+        res.status(500).send({ status: 'Failed', error: error.message})
+        
+    }
+}
+
+module.exports = { getAllRecipes, addrecipe, getLastFive, getById, updateRecipe}
