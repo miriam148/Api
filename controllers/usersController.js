@@ -68,4 +68,30 @@ const getFavoriteRecipes = async (req, res) => {
   }
 };
 
-  module.exports = { addToFavourites, getFavoriteRecipes }
+
+
+const removeFromFavoritesRecipes = async (req,res) => {
+  try {
+    const { idRecipe } = req.params
+    const idUser = req.payload._id
+   
+    if(!idUser) {
+      return res.status(200).send('Usuario no encontrado'); 
+
+    }
+
+    const user = await userModel.findById(idUser)
+    console.log(user)
+    const isIncluded = user.favoriteRecipes.includes(idRecipe)
+    if(!isIncluded){
+      return res.status(200).send('No tienes esa receta'); 
+    }
+    user.favoriteRecipes = user.favoriteRecipes.filter((id) =>id.toString() !== idRecipe)
+    user.save()
+    return res.status(200).send(user); 
+  } catch (error) {
+    res.status(500).send({ status: 'Failed', error: error.message})
+  }
+}
+
+  module.exports = { addToFavourites, getFavoriteRecipes, removeFromFavoritesRecipes }
