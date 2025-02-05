@@ -18,11 +18,40 @@ const getAllRecipes = async (req, res) => {
 };
 
 
+
+
+// const getAllRecipes = async (req, res) => {
+//   try {
+//     const recipes = await recipeModel.find()
+//       .populate("likes", "_id") // Trae solo los _id de los usuarios que dieron like
+//       .lean(); // Convierte los documentos a objetos JavaScript puros
+
+//     // Transformamos la respuesta para incluir el número total de likes
+//     const recipesWithLikesCount = recipes.map(recipe => ({
+//       ...recipe,
+//       likesCount: recipe.likes.length // Cuenta la cantidad de likes
+//     }));
+
+//     if (recipesWithLikesCount.length === 0) {
+//       return res.status(200).send({
+//         status: "success",
+//         data: [],
+//         message: "No hay recetas en la base de datos",
+//       });
+//     }
+
+//     res.status(200).send({ status: "success", data: recipesWithLikesCount });
+//   } catch (error) {
+//     res.status(500).send({ status: "Failed", error: error.message });
+//   }
+// };
+
+
+
 const addrecipe = async (req, res) => {
-    try { //aqui haremos la peticion a la base de datos, si nos da error nos lo dira con lo de bajo
+    try { 
        const recipeData = req.body 
-       await recipeModel.create(recipeData) //todas las interaciones que hagamos con nuestra base de datos async/await
-         //los datos para mandarselos al frontend los sacamos del cuerpo
+       await recipeModel.create(recipeData) 
          res.status(200).send("la receta se ha creado correctamente")
     } catch (error) {
         res.status(500).send({ status: 'Failed', error: error.message})
@@ -72,4 +101,21 @@ const updateRecipe = async(req, res) => {
     }
 }
 
-module.exports = { getAllRecipes, addrecipe, getLastFive, getById, updateRecipe}
+const deleteRecipes = async (req, res) => {
+  try {
+      const idRecipe = req.params.id
+      const recipe = await recipeModel.findByIdAndDelete(idRecipe)
+      if(!recipe){
+          return res.status(404).send('Receta no encontrada')
+      }
+      res.status(200).send('Se ha borrado correctamente')
+      
+  } catch (error) {
+      res.status(500).send({ status: 'failed', error: error.message})
+  }
+}
+
+
+
+
+module.exports = { getAllRecipes, addrecipe, getLastFive, getById, updateRecipe, deleteRecipes}

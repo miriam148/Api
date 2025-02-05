@@ -94,4 +94,21 @@ const removeFromFavoritesRecipes = async (req,res) => {
   }
 }
 
-  module.exports = { addToFavourites, getFavoriteRecipes, removeFromFavoritesRecipes }
+
+const updateUser = async (req, res) => {
+  try {
+    const idUser = req.params.idUser;
+    const newUser = req.body;
+    const user = await userModel.findByIdAndUpdate(idUser, newUser, {
+      new: true,
+    });
+    if (!user) {
+      return res.status(404).send("Usuario no encontrado");
+    }
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send({ status: 'failed', error: error.message})
+  }
+};
+
+  module.exports = { addToFavourites, getFavoriteRecipes, removeFromFavoritesRecipes, updateUser }
